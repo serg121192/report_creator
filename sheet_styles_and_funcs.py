@@ -8,6 +8,7 @@ from openpyxl.styles import (
 )
 
 
+# Defines the width for the cells in the columns of the table
 dims = {
     "A" : 30,
     "B" : 10,
@@ -16,23 +17,27 @@ dims = {
     "E" : 45,
 }
 
+# Defines the font style for some cells in table
 font_style = Font(
     name="Times New Roman",
     size=11,
     bold=False,
 )
 
+# Defines the bold font style for some cells in table
 font_style_bold = Font(
     name="Times New Roman",
     size=11,
     bold=True,
 )
 
+# Defines the thick style for borderline
 thick = Side(
     border_style="medium",
     color="FF000000"
 )
 
+# Defines the styles for borders of the cell
 border = Border(
     top=thick,
     left=thick,
@@ -40,29 +45,39 @@ border = Border(
     bottom=thick,
 )
 
+# Defines the styles for border of the cell
+# where the bottom border must not be thick
 no_bottom_border = Border(
     top=thick,
     left=thick,
     right=thick,
 )
 
+# Defines the styles for border of the cell
+# where the top border must not be thick
 no_top_border = Border(
     left=thick,
     right=thick,
     bottom=thick,
 )
 
+# Defines the styles for border of the cell
+# where the top and bottom borders must not be thick
 no_tb_border = Border(
     left=thick,
     right=thick,
 )
 
+# Defines the center horizontal and vertical alignment
+# inside the cell
 mid_align = Alignment(
     vertical="center",
     horizontal="center",
     wrap_text=True,
 )
 
+# Defines the left horizontal and center vertical alignment
+# inside the cell
 left_align = Alignment(
     vertical="center",
     horizontal="left",
@@ -70,6 +85,8 @@ left_align = Alignment(
 )
 
 
+# Making a list of the tuples with the start and end coordinates
+# of the grouped department
 def merge_intervals(start: int, end: int, ws) -> list:
     _edges = []
     for row in range(start + 1, end + 1):
@@ -82,6 +99,7 @@ def merge_intervals(start: int, end: int, ws) -> list:
     return _edges
 
 
+# Main function which accepts the written above styles for the table page
 def main_styles_acceptation(_edges: list, ws) -> None:
     for start, end in _edges:
         ws.merge_cells(f"A{start}:A{end}")
@@ -120,6 +138,8 @@ def main_styles_acceptation(_edges: list, ws) -> None:
                     continue
                 cell.alignment = left_align
 
+
+# Defines and accepts the border styles for the cells
 def border_styles(edges: list, ws) -> None:
     for start, end in edges:
         for column in range(ws.min_column, ws.max_column + 1):
@@ -133,6 +153,8 @@ def border_styles(edges: list, ws) -> None:
                 ws[f"{column_letter}{number}"].border = no_tb_border
 
 
+# Adding the last cells in the columns 'A' and 'B' which are
+# consist the complex information of the table
 def add_last_stats(end: int, ws) -> None:
     ws[f"A{end + 1}"] = "Всього: "
     ws[f"B{end + 1}"] = sum(

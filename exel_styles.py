@@ -10,6 +10,9 @@ from sheet_styles_and_funcs import (
 )
 
 
+# The main function which executes editing the raw data,
+# making the file and accepting the styles for the page
+# of the final version file
 def _groups_edges():
     report_merge()
     report = f"Безпечне місто {date.today()}.xlsx"

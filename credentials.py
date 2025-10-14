@@ -1,12 +1,15 @@
 from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 
+
+# The credentials for the remote DB connection
 username = "root"
 password = quote_plus("shans1")
 host = "30.1.1.4"
 port = 3306
 database = "cam"
 
+# Dictionary of the department replacements
 department_map = {
     "Ічня" : "ВП № 2 (Ічня) Прилуцького РВП ГУНП в Чернігівській області",
     "Бахмач" : "ВП № 1 (Бахмач) Ніжинського РУП ГУНП в Чернігівській області",
@@ -43,6 +46,7 @@ department_map = {
     "ВМП" : "ВМП ГУНП"
 }
 
+# Dictionary of the table main columns rename
 columns_rename = {
     "department" : (
                 "Найменування структурного підрозділу "
@@ -55,6 +59,7 @@ columns_rename = {
     "name" : "ПІБ користувача, який отримав доступ"
 }
 
+# The request to the remote DB to take the complex info about users
 request = (
     "SELECT "
         "cu.title, "
@@ -88,6 +93,7 @@ request = (
     "ORDER BY cu.report_order, c.username "
     )
 
+# Make a connection to the DB
 def connection():
     return create_engine(
         f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
