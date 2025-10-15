@@ -13,7 +13,7 @@ from sheet_styles_and_funcs import (
 # The main function which executes editing the raw data,
 # making the file and accepting the styles for the page
 # of the final version file
-def _groups_edges():
+def groups_edges():
     report_merge()
     report = f"Безпечне місто {date.today()}.xlsx"
     wb = load_workbook(report)
@@ -22,12 +22,12 @@ def _groups_edges():
     start = 2
     end = ws.max_row
 
-    _edges = merge_intervals(start, end, ws)
+    edges = merge_intervals(start, end, ws)
     for letter, width in dims.items():
         ws.column_dimensions[letter].width = width
 
-    main_styles_acceptation(_edges, ws)
-    border_styles(_edges, ws)
+    main_styles_acceptation(edges, ws)
+    border_styles(edges, ws)
 
     add_last_stats(end, ws)
 

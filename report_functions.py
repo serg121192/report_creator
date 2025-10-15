@@ -2,14 +2,14 @@ from datetime import date
 import pandas as pd
 
 from credentials import (
-    connection,
+    connect_to_database,
     department_map,
     request,
     columns_rename
 )
 
 # Making an engine from the connection request
-engine = connection()
+engine = connect_to_database()
 
 
 # The function which do the replacement of the departments names from the dict

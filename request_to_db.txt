@@ -1,0 +1,30 @@
+SELECT
+    cu.title,
+    c.username,
+    c.name
+FROM (
+       SELECT
+           user_id,
+           MAX(group_id) AS group_id
+       FROM cam_user_usergroup_map
+       WHERE (group_id BETWEEN 44 AND 67) OR (group_id BETWEEN 70 AND 109)
+       GROUP BY user_id
+) AS cuum
+JOIN (
+       SELECT
+           id,
+           title,
+           report_order
+       FROM cam_usergroups
+       WHERE report_order IS NOT NULL
+) cu ON cu.id = cuum.group_id
+JOIN (
+	   SELECT
+		   usr.id,
+		   usr.username,
+		   usr.name
+	   FROM cam_users usr
+	   WHERE usr.block = 0
+)
+AS c on c.id = cuum.user_id
+ORDER BY cu.report_order, c.username

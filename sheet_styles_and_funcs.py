@@ -7,101 +7,71 @@ from openpyxl.styles import (
     Alignment
 )
 
+from credentials import styles
+
 
 # Defines the width for the cells in the columns of the table
-dims = {
-    "A" : 30,
-    "B" : 10,
-    "C" : 20,
-    "D" : 15,
-    "E" : 45,
-}
+dims = styles["dims"]
+font = styles["font"]
+alignment = styles["alignment"]
+borders = styles["border_style"]
+
+
+def make_border(style):
+    cfg = borders[style]
+    return Border(
+        top=Side(border_style=cfg["top"] if "top" in cfg else None),
+        left=Side(border_style=cfg["left"] if "left" in cfg else None),
+        right=Side(border_style=cfg["right"] if "right" in cfg else None),
+        bottom=Side(border_style=cfg["bottom"] if "bottom" in cfg else None),
+    )
 
 # Defines the font style for some cells in table
-font_style = Font(
-    name="Times New Roman",
-    size=11,
-    bold=False,
-)
+font_style = Font(**font["default"])
 
 # Defines the bold font style for some cells in table
-font_style_bold = Font(
-    name="Times New Roman",
-    size=11,
-    bold=True,
-)
-
-# Defines the thick style for borderline
-thick = Side(
-    border_style="medium",
-    color="FF000000"
-)
+font_style_bold = Font(**font["bold_font"])
 
 # Defines the styles for borders of the cell
-border = Border(
-    top=thick,
-    left=thick,
-    right=thick,
-    bottom=thick,
-)
+border = make_border("default")
 
 # Defines the styles for border of the cell
 # where the bottom border must not be thick
-no_bottom_border = Border(
-    top=thick,
-    left=thick,
-    right=thick,
-)
+no_bottom_border = make_border("no_bottom")
 
 # Defines the styles for border of the cell
 # where the top border must not be thick
-no_top_border = Border(
-    left=thick,
-    right=thick,
-    bottom=thick,
-)
+no_top_border = make_border("no_top")
 
 # Defines the styles for border of the cell
 # where the top and bottom borders must not be thick
-no_tb_border = Border(
-    left=thick,
-    right=thick,
-)
+no_tb_border = make_border("no_top_bottom")
 
 # Defines the center horizontal and vertical alignment
 # inside the cell
-mid_align = Alignment(
-    vertical="center",
-    horizontal="center",
-    wrap_text=True,
-)
+mid_align = Alignment(**alignment["center"])
 
 # Defines the left horizontal and center vertical alignment
 # inside the cell
-left_align = Alignment(
-    vertical="center",
-    horizontal="left",
-    wrap_text=True,
-)
-
+left_align = Alignment(**alignment["left"])
 
 # Making a list of the tuples with the start and end coordinates
 # of the grouped department
 def merge_intervals(start: int, end: int, ws) -> list:
-    _edges = []
+    edges = []
     for row in range(start + 1, end + 1):
         if ws[f"A{row}"].value != ws[f"A{start}"].value:
-            _edges.append((start, row - 1))
+            edges.append((start, row - 1))
             start = row
 
-    _edges.append((start, end))
+    edges.append((start, end))
 
-    return _edges
+    return edges
 
 
 # Main function which accepts the written above styles for the table page
-def main_styles_acceptation(_edges: list, ws) -> None:
-    for start, end in _edges:
+def main_styles_acceptation(edges: list, ws) -> None:
+    for start, end in edges:
         ws.merge_cells(f"A{start}:A{end}")
         ws.merge_cells(f"B{start}:B{end}")
         ws.row_dimensions[2].height = 20

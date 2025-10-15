@@ -1,0 +1,59 @@
+{
+  "dims" : {
+    "A" : 30,
+    "B" : 10,
+    "C" : 20,
+    "D" : 15,
+    "E" : 45
+  },
+  "font" : {
+    "default": {
+          "name": "Times New Roman",
+          "size": 11,
+          "bold": 0
+    },
+    "bold_font": {
+      "name": "Times New Roman",
+      "size": 11,
+      "bold": 1
+    }
+  },
+  "border_thickness": {
+    "border_style": "medium",
+    "color": "FF000000"
+  },
+  "border_style": {
+    "default": {
+      "top": "medium",
+      "left": "medium",
+      "right": "medium",
+      "bottom": "medium"
+    },
+    "no_top": {
+      "left": "medium",
+      "right": "medium",
+      "bottom": "medium"
+    },
+    "no_bottom": {
+      "top": "medium",
+      "left": "medium",
+      "right": "medium"
+    },
+    "no_top_bottom": {
+      "left": "medium",
+      "right": "medium"
+    }
+  },
+  "alignment": {
+    "center": {
+      "horizontal": "center",
+      "vertical": "center",
+      "wrap_text": 1
+    },
+    "left": {
+      "horizontal": "left",
+      "vertical": "center",
+      "wrap_text": 1
+    }
+  }
+}
