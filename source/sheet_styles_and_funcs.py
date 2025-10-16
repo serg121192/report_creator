@@ -7,17 +7,19 @@ from openpyxl.styles import (
     Alignment
 )
 
-from credentials import styles
+from source.credentials import styles
 
 
-# Defines the width for the cells in the columns of the table
+# Defines the width, font styles, alignments and border style dictionaries
+# for the cells of table, taken from the JSON file 'styles_config'
 dims = styles["dims"]
 font = styles["font"]
 alignment = styles["alignment"]
 borders = styles["border_style"]
 
 
-def make_border(style):
+# Custom function which defines the border style for the current cell
+def make_border(style) -> Border:
     cfg = borders[style]
     return Border(
         top=Side(border_style=cfg["top"] if "top" in cfg else None),
@@ -32,7 +34,8 @@ font_style = Font(**font["default"])
 # Defines the bold font style for some cells in table
 font_style_bold = Font(**font["bold_font"])
 
-# Defines the styles for borders of the cell
+# Defines the default border for cell, where the top,
+# left, right and bottom sides filled with medium thickness
 border = make_border("default")
 
 # Defines the styles for border of the cell
@@ -55,7 +58,8 @@ mid_align = Alignment(**alignment["center"])
 # inside the cell
 left_align = Alignment(**alignment["left"])
 
-# Making a list of the tuples with the start and end coordinates
+
+# Making a list of the tuples with the 'start' and 'end' coordinates
 # of the grouped department
 def merge_intervals(start: int, end: int, ws) -> list:
     edges = []
@@ -109,7 +113,7 @@ def main_styles_acceptation(edges: list, ws) -> None:
                 cell.alignment = left_align
 
 
-# Defines and accepts the border styles for the cells
+# The function chooses and accepts the border styles for the current cell
 def border_styles(edges: list, ws) -> None:
     for start, end in edges:
         for column in range(ws.min_column, ws.max_column + 1):
@@ -124,7 +128,7 @@ def border_styles(edges: list, ws) -> None:
 
 
 # Adding the last cells in the columns 'A' and 'B' which are
-# consist the complex information of the table
+# consist the additional information of the table
 def add_last_stats(end: int, ws) -> None:
     ws[f"A{end + 1}"] = "Всього: "
     ws[f"B{end + 1}"] = sum(

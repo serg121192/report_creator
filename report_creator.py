@@ -1,4 +1,4 @@
-from exel_styles import groups_edges
+from source.exel_styles import groups_edges
 
 
 # The main function, which executes the script of gethering info from DB,

@@ -1,8 +1,8 @@
 from datetime import date
 from openpyxl import load_workbook
 
-from report_functions import report_merge
-from sheet_styles_and_funcs import (
+from source.report_functions import report_merge
+from source.sheet_styles_and_funcs import (
     dims,
     merge_intervals,
     main_styles_acceptation,
@@ -13,7 +13,7 @@ from sheet_styles_and_funcs import (
 # The main function which executes editing the raw data,
 # making the file and accepting the styles for the page
 # of the final version file
-def groups_edges():
+def groups_edges() -> None:
     report_merge()
     report = f"Безпечне місто {date.today()}.xlsx"
     wb = load_workbook(report)
