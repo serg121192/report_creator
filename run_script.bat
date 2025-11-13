@@ -53,7 +53,7 @@ if %errorlevel%==0 (
         color %COLOR_SUCCESS%
 		del %LOGFILE%
 		echo. 
-        echo *** File "Безпечне місто_%CURRENT_DATE%.xlsx" was created!!! ***
+        echo *** File "Безпечне місто_%CURRENT_DATE%.xlsx" was created!!! See the reports/ directory. ***
     )
 )
 
