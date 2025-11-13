@@ -1,3 +1,4 @@
+import os
 from datetime import date
 import pandas as pd
 from pandas import DataFrame
@@ -31,8 +32,9 @@ def department_counters(report) -> DataFrame:
 
 # The function which saves the DataFrame table to the Excel-file
 def save_report_to_excel(report) -> None:
+    os.makedirs("reports", exist_ok=True)
     report.to_excel(
-        f"Безпечне місто {date.today()}.xlsx",
+        f"./reports/Безпечне місто {date.today()}.xlsx",
         index=False,
         sheet_name="Користувачі"
     )
