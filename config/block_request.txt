@@ -1,0 +1,33 @@
+SELECT
+    cu.title,
+    c.username,
+    c.name,
+    c.block,
+    c.lastvisitDate
+FROM (
+    SELECT
+        user_id,
+        MAX(group_id) AS group_id
+    FROM cam_user_usergroup_map
+    WHERE (group_id BETWEEN 44 AND 67) OR (group_id BETWEEN 70 AND 109)
+    GROUP BY user_id
+) AS cuum
+JOIN (
+    SELECT
+        id,
+        username,
+        name,
+        block,
+        lastvisitDate
+    FROM cam_users
+    WHERE block=0 AND lastvisitDate <= DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+) AS c ON cuum.user_id = c.id
+JOIN (
+    SELECT
+        id,
+        title,
+        report_order
+    FROM cam_usergroups
+    WHERE report_order IS NOT NULL
+) AS cu ON cuum.group_id=cu.id
+ORDER BY cu.report_order, c.username;

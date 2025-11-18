@@ -6,14 +6,15 @@ from source.sheet_styles_and_funcs import (
     dims,
     merge_intervals,
     main_styles_acceptation,
-    border_styles, add_last_stats
+    border_styles,
+    add_last_stats
 )
 
 
 # The main function which executes editing the raw data,
 # making the file and accepting the styles for the page
 # of the final version file
-def groups_edges() -> None:
+def users_report() -> None:
     report_merge()
     report = f"./reports/Безпечне місто {date.today()}.xlsx"
     wb = load_workbook(report)

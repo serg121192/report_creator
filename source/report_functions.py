@@ -4,15 +4,11 @@ import pandas as pd
 from pandas import DataFrame
 
 from source.credentials import (
-    connect_to_database,
+    engine,
     department_map,
     request,
     columns_rename
 )
-
-# Getting an engine from the successfully established
-# connection to the database
-engine = connect_to_database()
 
 
 # The function which do the replacement of the departments names from the dict

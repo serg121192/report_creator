@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from dotenv import load_dotenv
 
+from source.config_loader import args
+
 
 # Loading the credentials to get access to the DB
 # from the .env file
@@ -16,11 +18,16 @@ HOST = getenv("HOST")
 PORT = getenv("PORT")
 DATABASE = getenv("DATABASE")
 
+
 # Loading the maps for departments and columns replacements, Excel styles
 # config and request line from the JSON and TXT files
+request_file = "./config/request_to_db.txt" \
+                if args.user_report \
+                else "./config/block_request.txt"
+
 with open("./config/department_map.json", "r", encoding="utf-8") as deps, \
      open("./config/column_names.json", "r", encoding="utf-8") as col_names, \
-     open("./config/request_to_db.txt", "r", encoding="utf-8") as req, \
+     open(request_file, "r", encoding="utf-8") as req, \
      open("./config/styles_config.json", "r", encoding="utf-8") as style:
     department_map = json.load(deps)
     columns_rename = json.load(col_names)
@@ -39,3 +46,7 @@ def connect_to_database() -> Engine | None:
             "Return value must be of 'Engine' type. "
             "Connection to the database not established."
         )
+
+# Getting an engine from the successfully established
+# connection to the database
+engine = connect_to_database()

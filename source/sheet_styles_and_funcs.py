@@ -8,6 +8,7 @@ from openpyxl.styles import (
 )
 
 from source.credentials import styles
+from source.config_loader import args
 
 
 # Defines the width, font styles, alignments and border style dictionaries
@@ -77,7 +78,8 @@ def merge_intervals(start: int, end: int, ws) -> list:
 def main_styles_acceptation(edges: list, ws) -> None:
     for start, end in edges:
         ws.merge_cells(f"A{start}:A{end}")
-        ws.merge_cells(f"B{start}:B{end}")
+        if args.user_report:
+            ws.merge_cells(f"B{start}:B{end}")
         ws.row_dimensions[2].height = 20
 
         for row in ws.iter_rows(
@@ -110,7 +112,10 @@ def main_styles_acceptation(edges: list, ws) -> None:
             for cell in row:
                 if isinstance(cell, MergedCell):
                     continue
-                cell.alignment = left_align
+                if args.user_report:
+                    cell.alignment = left_align
+                else:
+                    cell.alignment = mid_align
 
 
 # The function chooses and accepts the border styles for the current cell
